@@ -18,5 +18,9 @@ h1 {{name}}
       .form-group
         button.btn.btn-default(type='submit', ng-click='submit(user)') {{name}}
       .form-group
-        button.btn.btn-default(type='submit', ng-click='authenticate("github")') Github
+        button.btn.btn-default(type='submit', ng-click='authenticate("github")') Login with Github
+      .form-group
+        button.btn.btn-default(type='submit', ng-click='authenticate("linkedin")') Login with LinkedIn
+      .form-group
+        button.btn.btn-default(type='submit', ng-click='authenticate("fb")') Login with Facebook
   .col-xs-8

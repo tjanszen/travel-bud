@@ -13,6 +13,8 @@ angular.module('angular-prototype', ['ui.router', 'ngMessages', 'satellizer'])
       .state('login', {url:'/login', templateUrl:'/views/users/users.html', controller:'UsersCtrl'});
 
       $authProvider.github({clientId: '93c8823ba2397fa6ff8b'});
+      $authProvider.linkedin({clientId: '75m79t9uwlm46q'});
+      $authProvider.fb({clientId: '1045993862079258'});
   }])
   .run(['$rootScope', 'User', function($rootScope, User){
     User.status().then(function(response){

@@ -1,9 +1,13 @@
+
+/* jshint camelcase:false */
 'use strict';
 
 let bcrypt = require('bcrypt');
 let mongoose = require('mongoose');
 let Request = require('request');
 let qs = require('querystring');
+let jwt = require('jwt-simple');
+let moment = require('moment');
 let User;
 
 let userSchema = mongoose.Schema({
@@ -28,8 +32,54 @@ userSchema.statics.github = function(payload, cb){
     let headers = {'User-Agent':'Satellizer'};
     accessToken = qs.parse(accessToken);
 
-    Request.get({url:userApiUrl, qs:accessToken, headers:headers, json:true}, cb);
-  })
+    Request.get({url:userApiUrl, qs:accessToken, headers:headers, json:true}, (err, response, profile)=>{
+      cb({github: profile.id, displayName: profile.name, photoUrl:profile.avatar_url});
+    });
+  });
+};
+
+userSchema.statics.linkedin = function(payload, cb){
+  let accessTokenUrl = 'https://www.linkedin.com/uas/oauth2/accessToken';
+  let peopleApiUrl = 'https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address,picture-url)';
+  let params = {
+    code: payload.code,
+    client_id: payload.clientId,
+    client_secret: process.env.LINKEDIN_SECRET,
+    redirect_uri: payload.redirectUri,
+    grant_type: 'authorization_code'
+  };
+
+  Request.post(accessTokenUrl,{form: params, json:true}, (err, response, accessToken)=>{
+    var params = {
+      oauth2_access_token: accessToken.access_token,
+      format: 'json'
+    };
+
+    Request.get({url:peopleApiUrl, qs:params, json:true}, (err, response, profile)=>{
+      cb({linkedin: profile.id, displayName: `${profile.firstName} ${profile.lastName}`, photoUrl:profile.pictureUrl});
+    });
+  });
+};
+
+userSchema.statics.create = function(provider, profile, cb){
+  let query = {};
+  query[provider] = profile[provider];
+  User.findOne(query, (err, user)=>{
+    if(user){return cb(err, user);}
+
+    let u = new User(profile);
+    u.save(cb);
+  });
+};
+
+userSchema.methods.token = function(){
+  let payload = {
+    sub: this._id,
+    iat: moment().unix(),
+    exp: moment().add(14, 'days').unix()
+  };
+
+  return jwt.encode(payload, process.env.TOKEN_SECRET);
 };
 
 

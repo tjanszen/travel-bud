@@ -6,7 +6,7 @@ angular.module('angular-prototype')
 
     $scope.authenticate = function(provider){
       $auth.authenticate(provider);
-    }
+    };
 
     $scope.submit = function(user){
       if($scope.name === 'Register'){
