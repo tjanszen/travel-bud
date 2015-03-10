@@ -1,4 +1,3 @@
-
 /* jshint camelcase:false */
 'use strict';
 
@@ -11,9 +10,13 @@ let moment = require('moment');
 let User;
 
 let userSchema = mongoose.Schema({
+    email: {type: String, unique: true, lowercase: true},
+    password: {type: String, select: false},
     displayName: String,
     photoUrl: String,
     github: String,
+    facebook: String,
+    linkedin: String,
     createdAt: {type: Date, default: Date.now, required: true}
 });
 
@@ -61,6 +64,26 @@ userSchema.statics.linkedin = function(payload, cb){
   });
 };
 
+userSchema.statics.facebook = function(payload, cb){
+  let accessTokenUrl = 'https://graph.facebook.com/oauth/access_token';
+  let graphApiUrl = 'https://graph.facebook.com/me';
+  let params = {
+    code: payload.code,
+    client_id: payload.clientId,
+    client_secret: process.env.FACEBOOK_SECRET,
+    redirect_uri: payload.redirectUri,
+  };
+
+  Request.get({ url: accessTokenUrl, qs: params, json: true }, (err, response, accessToken)=>{
+
+    accessToken = qs.parse(accessToken);
+
+    Request.get({ url: graphApiUrl, qs: accessToken, json: true }, (err, response, profile)=>{
+      cb({facebook: profile.id, displayName: `${profile.first_name} ${profile.last_name}`, photoUrl:`http://graph.facebook.com/${profile.id}/picture?type=large`});
+    });
+  });
+};
+
 userSchema.statics.create = function(provider, profile, cb){
   let query = {};
   query[provider] = profile[provider];
@@ -84,17 +107,13 @@ userSchema.methods.token = function(){
 
 
 userSchema.statics.register = function(o, cb){
-  User.findOne({email:o.email}, function(err, user){
-    if(user){return cb(true);}
-
-    user = new User(o);
+    let user = new User(o);
     user.password = bcrypt.hashSync(o.password, 8);
     user.save(cb);
-  });
 };
 
 userSchema.statics.authenticate = function(o, cb){
-  User.findOne({email:o.email}, function(err, user){
+  User.findOne({email:o.email}, '+password', function(err, user){
     if (!user) {return cb(true);}
 
     var isGood = bcrypt.compareSync(o.password, user.password);

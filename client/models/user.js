@@ -4,11 +4,11 @@ angular.module('angular-prototype')
   .factory('User', ['$http', function($http){
 
     function register(user){
-      return $http.post('/register', user);
+      return $http.post('/auth/signup', user);
     }
 
     function login(user){
-      return $http.post('/login', user);
+      return $http.post('/auth/login', user);
     }
 
     function status(){

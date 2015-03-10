@@ -14,10 +14,10 @@ angular.module('angular-prototype', ['ui.router', 'ngMessages', 'satellizer'])
 
       $authProvider.github({clientId: '93c8823ba2397fa6ff8b'});
       $authProvider.linkedin({clientId: '75m79t9uwlm46q'});
-      $authProvider.fb({clientId: '1045993862079258'});
+      $authProvider.facebook({clientId: '1045993862079258'});
   }])
-  .run(['$rootScope', 'User', function($rootScope, User){
-    User.status().then(function(response){
-      $rootScope.email = response.data.email;
-    });
+  .run(['$rootScope', '$window', '$auth', function($rootScope, $window, $auth){
+    if($auth.isAuthenticated()){
+      $rootScope.user = JSON.parse($window.localStorage.user);
+    }
   }]);
