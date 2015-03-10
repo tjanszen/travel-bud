@@ -10,5 +10,12 @@
     "email" : "sam@aol.com",
     "password" : "$2a$08$NBLq8G/UigORU4Ak6fr8yuIIbvsF3hMMrSJNk0QgXSC8b6hfI33pq",
     "createdAt" : {"$date":1424828111020}
+  },
+  {
+    "_id" : {"$oid":"000000000000000000000003"},
+    "facebook" : "00000000000008",
+    "displayName" : "Tommy Janszen",
+    "photoUrl" : "http://graph.facebook.com/00000000000008/picture?type=large",
+    "createdAt" : {"$date":1424828111020}
   }
 ]

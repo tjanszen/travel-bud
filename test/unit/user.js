@@ -80,4 +80,23 @@ describe('User Model', function() {
       });
     });
   });
+  describe('.create', function(){
+    it('should create a Facebook user', function(done){
+      User.create('facebook', {facebook: '00000000000007', displayName: 'Tommy Janszen', photoUrl:'https://pbs.twimg.com/profile_images/560170035935580160/QMqViDYS.jpeg'}, function(err, user){
+        expect(err).to.not.be.ok;
+        expect(user).to.be.ok;
+        done();
+      });
+    });
+    it('should sign in a Facebook user', function(done){
+      User.create('facebook', {facebook: '00000000000008', displayName: 'Tommy Janszen', photoUrl:'http://graph.facebook.com/00000000000008/picture?type=large'}, function(err, user){
+        expect(err).to.not.be.ok;
+        expect(user).to.be.ok;
+        done();
+      });
+    });
+  });
+  describe('#token', function(){
+    User.token()
+  })
 });
