@@ -1,1 +1,17 @@
 h3 Vacations List
+
+table.table.table-striped.table-hover
+    thead
+      tr
+        th Title
+        th Departure Date
+        th Arrival Date
+        th Departure Airport
+        th Arrival Airport
+    tbody
+      tr(ng-repeat='vaca in vacations'  ng-click='')
+        td {{vaca.title}}
+        td {{vaca.departureDate}}
+        td {{vaca.arrivalDate}}
+        td {{vaca.departureAirport}}
+        td {{vaca.arrivalAirport}}

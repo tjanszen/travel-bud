@@ -12,7 +12,7 @@ angular.module('angular-prototype')
     }
 
     function list(userId){
-      return $http.get('/vacations/user/');
+      return $http.get('/vacations');
     }
 
     return {create:create, show:show, list:list};

@@ -6,7 +6,6 @@ angular.module('angular-prototype')
     .then(function(response){
       console.log(response.data);
       $scope.vacations = response.data.vacations;
-      // $scope.vacation = response.data.vacation;
     });
 
     $scope.show = function(vacation){
