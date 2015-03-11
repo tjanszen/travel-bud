@@ -1,6 +1,11 @@
 'use strict';
 
 angular.module('angular-prototype')
-  .controller('VacationsCtrl', ['$scope', ($scope)=>{
-    $scope.x=3
+  .controller('VacationsNewCtrl', ['$scope', 'Vacation', '$state', function($scope, Vacation, $state){
+    $scope.submit = function(vacation){
+    Vacation.create(vacation)
+    .then(response=>{
+      $state.go('vacations.show', {vacationId: response.data.vacation._id});
+     });
+   };
   }]);
