@@ -97,6 +97,7 @@ describe('User Model', function() {
     });
   });
   describe('#token', function(){
-    User.token()
-  })
+    // it('should create a token for a user')
+    // User.token()
+  });
 });

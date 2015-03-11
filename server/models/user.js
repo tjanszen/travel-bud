@@ -10,7 +10,7 @@ let moment = require('moment');
 let User;
 
 let userSchema = mongoose.Schema({
-    email: {type: String, lowercase: true},
+    email: {type: String, unique:true, lowercase: true},
     password: {type: String, select: false},
     displayName: String,
     photoUrl: String,
@@ -109,8 +109,7 @@ userSchema.methods.token = function(){
 userSchema.statics.register = function(o, cb){
   User.findOne({email:o.email}, function(err, user){
     if(user){return cb(true);}
-
-    let user = new User(o);
+    user = new User(o);
     user.password = bcrypt.hashSync(o.password, 8);
     user.save(cb);
 

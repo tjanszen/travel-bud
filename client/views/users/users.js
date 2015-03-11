@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angular-prototype')
-  .controller('UsersCtrl', ['$rootScope', '$scope', '$state', '$auth', '$window', 'User', function($rootScope, $scope, $state, $auth, $window, User){
+  .controller('UsersCtrl', ['$rootScope', '$scope', '$state', '$auth', '$window', function($rootScope, $scope, $state, $auth, $window){
     $scope.name = _.capitalize($state.current.name);
 
     function login(response){
