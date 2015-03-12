@@ -1,9 +1,7 @@
 h3 Vacations Show Page
 
-h1 this is my stripe directive
-div(tj-stripe)
-
 button.btn.btn-default(ng-click='findFlights(vacation)') Find Flights
+div(tj-stripe-brain)
 
 table.table.table-striped.table-hover
     thead
@@ -59,9 +57,10 @@ table.table.table-striped.table-hover
             td {{departure.DepartureAirport.LocationCode}}
             td {{departure.DepartureDateTime | date: 'h:mma'}}
             td {{departure.ArrivalDateTime | date: 'h:mma'}}
-    button.btn.btn-default(ng-click='purchase(flight)') Purchase
+    h4 Purhase 
     h4 Price
     h5 Base: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.BaseFare.Amount}}
     h5 Taxes: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.Taxes.TotalTax.Amount}}
     h5 Total: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.TotalFare.Amount}}
+    div(tj-stripe, itinerary='flight.AirItinerary', cost='flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.TotalFare.Amount', title='vacation.title', vacation='vacation._id')
     

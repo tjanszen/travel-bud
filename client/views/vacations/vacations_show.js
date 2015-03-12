@@ -6,7 +6,7 @@ angular.module('angular-prototype')
     .then(function(response){
       $scope.vacation = response.data.vacation;
     });
-    $scope.findFlights = function(vacation){
+    $scope.findFlights = function(){
       Trip.findFlights($state.params.vacationId)
         .then(function(response){
           console.log(response.data);

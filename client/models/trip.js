@@ -8,5 +8,9 @@ angular.module('angular-prototype')
       return $http.get('/vacations/' + vacationId + '/flight');
     }
 
-    return {findFlights:findFlights};
+    function purchaseFlight(vacationId, info){
+      console.log('************* akhkjsdh', vacationId);
+      return $http.post('/vacations/' + vacationId + '/flights/purchase', info);
+    }
+    return {findFlights:findFlights, purchaseFlight:purchaseFlight};
   }]);

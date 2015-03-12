@@ -39,7 +39,7 @@ tripSchema.statics.flights = function(o, cb) {
 
       request(options, function(err, response, body){
         body = JSON.parse(body);
-        cb(body.PricedItineraries)
+        cb(body.PricedItineraries);
       });
   });
 };
