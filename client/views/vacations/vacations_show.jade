@@ -1,5 +1,8 @@
 h3 Vacations Show Page
 
+h1 this is my stripe directive
+div(tj-stripe)
+
 button.btn.btn-default(ng-click='findFlights(vacation)') Find Flights
 
 table.table.table-striped.table-hover
@@ -13,8 +16,8 @@ table.table.table-striped.table-hover
     tbody
       tr
         td {{vacation.title}}
-        td {{vacation.departureDate}}
-        td {{vacation.arrivalDate}}
+        td {{vacation.departureDate | date}}
+        td {{vacation.arrivalDate | date}}
         td {{vacation.departureAirport}}
         td {{vacation.arrivalAirport}}
 .row
@@ -56,6 +59,7 @@ table.table.table-striped.table-hover
             td {{departure.DepartureAirport.LocationCode}}
             td {{departure.DepartureDateTime | date: 'h:mma'}}
             td {{departure.ArrivalDateTime | date: 'h:mma'}}
+    button.btn.btn-default(ng-click='purchase(flight)') Purchase
     h4 Price
     h5 Base: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.BaseFare.Amount}}
     h5 Taxes: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.Taxes.TotalTax.Amount}}

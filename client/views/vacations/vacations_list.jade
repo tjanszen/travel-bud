@@ -11,7 +11,7 @@ table.table.table-striped.table-hover
     tbody
       tr(ng-repeat='vaca in vacations')
         td {{vaca.title}}
-        td {{vaca.departureDate}}
-        td {{vaca.arrivalDate}}
+        td {{vaca.departureDate | date}}
+        td {{vaca.arrivalDate | date}}
         td {{vaca.departureAirport}}
         td {{vaca.arrivalAirport}}
