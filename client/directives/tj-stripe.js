@@ -15,9 +15,16 @@ angular.module('angular-prototype')
     itinerary: '='
   };
   o.link = function(scope, element, attrs){};
-  o.controller = ['$scope', ($scope)=>{
+  o.controller = ['$scope', '$rootScope', ($scope, $rootScope)=>{
       $scope.purchase = function(){
-        
+        let info = {
+          vacation: $scope.vacation,
+          cost: $scope.cost,
+          description: $scope.title,
+          itinerary: $scope.itinerary
+        };
+
+        $rootScope.$broadcast('purchase', info);
     };
   }];
 

@@ -29,18 +29,18 @@ tripSchema.statics.flights = function(o, cb) {
 
   request(options, function(err, response, body){
     var token = JSON.parse(body).access_token;
-      var options = {
-        method: 'GET',
-        url: 'https://api.test.sabre.com/v1/shop/flights?origin=' + o.departureAirport + '&destination=' + o.arrivalAirport + '&departuredate=' + moment(o.departureDate).format('YYYY-MM-DD') + '&returndate=' + moment(o.arrivalDate).format('YYYY-MM-DD'),
-        headers: {
-          'Authorization': 'Bearer ' + token
-        }
-      };
+    var options = {
+      method: 'GET',
+      url: 'https://api.test.sabre.com/v1/shop/flights?origin=' + o.departureAirport + '&destination=' + o.arrivalAirport + '&departuredate=' + moment(o.departureDate).format('YYYY-MM-DD') + '&returndate=' + moment(o.arrivalDate).format('YYYY-MM-DD'),
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    };
 
-      request(options, function(err, response, body){
-        body = JSON.parse(body);
-        cb(body.PricedItineraries);
-      });
+    request(options, function(err, response, body){
+      body = JSON.parse(body);
+      cb(body.PricedItineraries);
+    });
   });
 };
 

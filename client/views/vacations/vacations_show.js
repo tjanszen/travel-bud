@@ -9,7 +9,6 @@ angular.module('angular-prototype')
     $scope.findFlights = function(){
       Trip.findFlights($state.params.vacationId)
         .then(function(response){
-          console.log(response.data);
           $scope.flights = response.data;
         });
     };

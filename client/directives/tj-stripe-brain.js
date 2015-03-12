@@ -8,39 +8,27 @@ angular.module('angular-prototype')
 
   o.restrict = 'A';
   o.templateUrl = '/directives/tj-stripe-brain.html';
-  o.scope = {
-    vacation:'=',
-    cost: '=',
-    title:'=',
-    itinerary: '='
-  };
-  o.link = function(scope, element, attrs){};
+  o.scope = {};
   o.controller = ['$scope', 'Trip', ($scope, Trip)=>{
-
+    let data;
     let handler = StripeCheckout.configure({
       key: 'pk_test_SH0ZtWNgG1kyUpoiBQWg9Vos',
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
       token: function(token) {
-
-        let info = {};
-        info.token = token.id;
-        info.cost = $scope.cost *100;
-        info.description = $scope.title;
-        info.itinerary = $scope.itinerary;
-        console.log('&&&&&&&&&TOKEN', token);
-        debugger;
-        Trip.purchaseFlight($scope.vacation, info);
+        data.token = token.id;
+        Trip.purchaseFlight(data.vacation, data);
 
       }
     });
 
-    $scope.purchase = function(){
+    $scope.$on('purchase', (event, info)=>{
+      data = info;
       handler.open({
-        name: 'Demo Site',
-        description: $scope.title,
-        amount: $scope.cost * 100
+        name: 'Travel Eddie',
+        description: $scope.description,
+        amount: $scope.cost
       });
-    };
+    });
   }];
 
   return o
