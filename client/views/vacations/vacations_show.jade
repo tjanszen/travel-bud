@@ -13,8 +13,50 @@ table.table.table-striped.table-hover
     tbody
       tr
         td {{vacation.title}}
-        td {{vacation.departureDate}}
+        td {{vacation.departureDate'}}
         td {{vacation.arrivalDate}}
         td {{vacation.departureAirport}}
         td {{vacation.arrivalAirport}}
-          
+.row
+  .col-xs-12(ng-repeat='flight in flights')
+    h3 Arrival 
+    table.table.table-striped.table-hover
+        thead
+          tr
+            th Flight Number
+            th Fligt Length
+            th From
+            th To
+            th Departure Time 
+            th Arrival Time
+        tbody(ng-repeat='arrival in flight.AirItinerary.OriginDestinationOptions.OriginDestinationOption[0].FlightSegment')
+          tr
+            td {{arrival.FlightNumber}}
+            td {{arrival.ElapsedTime}}
+            td {{arrival.ArrivalAirport.LocationCode}}
+            td {{arrival.DepartureAirport.LocationCode}}
+            td {{arrival.DepartureDateTime | date: 'h:mma'}}
+            td {{arrival.ArrivalDateTime | date: 'h:mma'}}
+        
+    h3 Departure 
+    table.table.table-striped.table-hover
+        thead
+          tr
+            th Flight Number
+            th Fligt Length
+            th From
+            th To
+            th Departure Time 
+            th Arrival Time
+        tbody(ng-repeat='departure in flight.AirItinerary.OriginDestinationOptions.OriginDestinationOption[1].FlightSegment')
+          tr
+            td {{departure.FlightNumber}}
+            td {{departure.ElapsedTime}}
+            td {{departure.ArrivalAirport.LocationCode}}
+            td {{departure.DepartureAirport.LocationCode}}
+            td {{departure.DepartureDateTime | date: 'h:mma'}}
+            td {{departure.ArrivalDateTime | date: 'h:mma'}}
+    h4 Price
+    h5 Base: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.BaseFare.Amount}}
+    h5 Tax: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.Taxes.TotalTax.Amount}}
+    h5 Total: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.TotalFare.Amount}}

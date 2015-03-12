@@ -8,5 +8,7 @@ angular.module('angular-prototype')
     });
     Trip.findFlights($state.params.vacationId)
       .then(function(response){
+        console.log(response.data);
+        $scope.flights = response.data;
       });
   }]);

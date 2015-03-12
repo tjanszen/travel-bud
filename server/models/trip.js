@@ -1,7 +1,7 @@
 'use strict';
 
 let mongoose = require('mongoose');
-let request = require('request');
+let Request = require('request');
 let _ = require('lodash');
 let moment = require('moment');
 let Trip;
@@ -17,7 +17,7 @@ let tripSchema = mongoose.Schema({
 })
 
 tripSchema.statics.flights = function(o, cb) {
-  console.log('OBJECT!!!!!!!!!!!!!!!!!!!!!!!!', o);
+  console.log('*************FLIGHTS OBJECT************', o);
   var options = {
     method: 'POST',
     url: 'https://api.test.sabre.com/v1/auth/token',
@@ -28,24 +28,21 @@ tripSchema.statics.flights = function(o, cb) {
     body: 'grant_type=client_credentials'
   };
 
-  // request(options, function(err, response, body){
-  //   console.log('FIRST REQUESt -response************', response);
-  //   console.log('FIRST REQUESt -err************', err);
-  //   var token = JSON.parse(body).access_token;
-  //     var options = {
-  //       method: 'GET',
-  //       url: 'https://api.test.sabre.com/v1/shop/flights/fares?origin=' + o.departureAirport + '&departuredate=' + o.departureDate + '&returndate=' + o.arrivalDate + '&theme=' + o.theme,
-  //       headers: {
-  //         'Authorization': 'Bearer ' + token
-  //       }
-  //     };
-  //
-  //     request(options, function(err, response, body){
-  //       body = JSON.parse(body);
-  //       var fares = body.FareInfo || [];
-  //
-  //     });
-  // });
+  Request(options, function(err, response, body){
+    var token = JSON.parse(body).access_token;
+      var options = {
+        method: 'GET',
+        url: 'https://api.test.sabre.com/v1/shop/flights?origin=' + o.departureAirport + '&destination=' + o.arrivalAirport + '&departuredate=' + moment(o.departureDate).format("YYYY-MM-DD") + '&returndate=' + moment(o.arrivalDate).format('YYYY-MM-DD'),
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      };
+
+      Request(options, function(err, response, body){
+        body = JSON.parse(body);
+        cb(body.PricedItineraries)
+      });
+  });
 };
 
 Trip = mongoose.model('Trip', tripSchema);

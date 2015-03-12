@@ -5,9 +5,10 @@ let Vacation = require('../../models/vacation');
 
 module.exports = {
   handler: function(request, reply) {
-    Vacation.findById(request.params.vacationId, function(err, v1){
-      console.log('*************** V1 ****************', v1);
-      reply();
-    })
+    Vacation.findById(request.params.vacationId, function(err, vacation){
+      Trip.flights(vacation, function(flights){
+        reply(flights);
+      });
+    });
   }
 };
