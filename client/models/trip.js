@@ -3,8 +3,8 @@
 angular.module('angular-prototype')
   .factory('Trip', ['$http', function($http){
 
-    function findFlights(){
-      return $http.get('/vacations/find');
+    function findFlights(vacationId){
+      return $http.get('/vacations/' + vacationId + '/flight');
     }
 
     return {findFlights:findFlights};

@@ -5,13 +5,8 @@ angular.module('angular-prototype')
     Vacation.show($state.params.vacationId)
     .then(function(response){
       $scope.vacation = response.data.vacation;
-    })
-
-    $scope.findFlights = function(){
-      Trip.findFlights()
+    });
+    Trip.findFlights($state.params.vacationId)
       .then(function(response){
-        alert('made a round trip');
-        console.log(response);
-      })
-    }
+      });
   }]);

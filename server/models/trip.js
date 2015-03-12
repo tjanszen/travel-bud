@@ -17,41 +17,35 @@ let tripSchema = mongoose.Schema({
 })
 
 tripSchema.statics.flights = function(o, cb) {
+  console.log('OBJECT!!!!!!!!!!!!!!!!!!!!!!!!', o);
   var options = {
     method: 'POST',
     url: 'https://api.test.sabre.com/v1/auth/token',
     headers: {
-      'Authorization': 'Basic ' + process.env.SABRE_TOKEN,
+      'Authorization': 'Basic ' + process.env.SABRE_SECRET,
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: 'grant_type=client_credentials'
   };
 
-  request(options, function(err, response, body){
-    var token = JSON.parse(body).access_token;
-      var options = {
-        method: 'GET',
-        url: 'https://api.test.sabre.com/v1/shop/flights/fares?origin=' + o.originAirport + '&departuredate=' + o.departureDate + '&returndate=' + o.returnDate + '&theme=' + o.theme,
-        headers: {
-          'Authorization': 'Bearer ' + token
-        }
-      };
-
-      request(options, function(err, response, body){
-        body = JSON.parse(body);
-        var fares = body.FareInfo || [];
-
-        async.map(fares, function(fare, cb){
-          request('http://airportcode.riobard.com/airport/'+fare.DestinationLocation+'?fmt=JSON', function(err, response, body){
-            body = JSON.parse(body);
-            fare.DestinationCity = body ? body.location : '';
-            cb(null, fare);
-          });
-        }, function(err, results){
-          cb({results:results});
-        });
-      });
-  });
+  // request(options, function(err, response, body){
+  //   console.log('FIRST REQUESt -response************', response);
+  //   console.log('FIRST REQUESt -err************', err);
+  //   var token = JSON.parse(body).access_token;
+  //     var options = {
+  //       method: 'GET',
+  //       url: 'https://api.test.sabre.com/v1/shop/flights/fares?origin=' + o.departureAirport + '&departuredate=' + o.departureDate + '&returndate=' + o.arrivalDate + '&theme=' + o.theme,
+  //       headers: {
+  //         'Authorization': 'Bearer ' + token
+  //       }
+  //     };
+  //
+  //     request(options, function(err, response, body){
+  //       body = JSON.parse(body);
+  //       var fares = body.FareInfo || [];
+  //
+  //     });
+  // });
 };
 
 Trip = mongoose.model('Trip', tripSchema);
