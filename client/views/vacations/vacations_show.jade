@@ -13,7 +13,7 @@ table.table.table-striped.table-hover
     tbody
       tr
         td {{vacation.title}}
-        td {{vacation.departureDate'}}
+        td {{vacation.departureDate}}
         td {{vacation.arrivalDate}}
         td {{vacation.departureAirport}}
         td {{vacation.arrivalAirport}}
@@ -58,5 +58,6 @@ table.table.table-striped.table-hover
             td {{departure.ArrivalDateTime | date: 'h:mma'}}
     h4 Price
     h5 Base: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.BaseFare.Amount}}
-    h5 Tax: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.Taxes.TotalTax.Amount}}
+    h5 Taxes: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.Taxes.TotalTax.Amount}}
     h5 Total: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.TotalFare.Amount}}
+    

@@ -11,7 +11,7 @@ angular.module('angular-prototype')
       return $http.get('/vacations/' + vacationId);
     }
 
-    function list(userId){
+    function list(){
       return $http.get('/vacations');
     }
 

@@ -6,9 +6,11 @@ angular.module('angular-prototype')
     .then(function(response){
       $scope.vacation = response.data.vacation;
     });
-    Trip.findFlights($state.params.vacationId)
-      .then(function(response){
-        console.log(response.data);
-        $scope.flights = response.data;
-      });
+    $scope.findFlights = function(vacation){
+      Trip.findFlights($state.params.vacationId)
+        .then(function(response){
+          console.log(response.data);
+          $scope.flights = response.data;
+        });
+    };
   }]);

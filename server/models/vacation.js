@@ -1,12 +1,12 @@
 /* jshint camelcase:false */
 'use strict';
 
-let bcrypt = require('bcrypt');
+// let bcrypt = require('bcrypt');
 let mongoose = require('mongoose');
-let Request = require('request');
-let qs = require('querystring');
-let jwt = require('jwt-simple');
-let moment = require('moment');
+// let Request = require('request');
+// let qs = require('querystring');
+// let jwt = require('jwt-simple');
+// let moment = require('moment');
 let Vacation;
 // let user = require('../models/user');
 

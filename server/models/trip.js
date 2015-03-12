@@ -1,8 +1,8 @@
 'use strict';
 
 let mongoose = require('mongoose');
-let Request = require('request');
-let _ = require('lodash');
+let request = require('request');
+// let _ = require('lodash');
 let moment = require('moment');
 let Trip;
 
@@ -14,10 +14,9 @@ let tripSchema = mongoose.Schema({
   destinationCity: {type: String, required: true},
   departureDate: {type: Date, required: true},
   returnDate: {type: Date, required: true},
-})
+});
 
 tripSchema.statics.flights = function(o, cb) {
-  console.log('*************FLIGHTS OBJECT************', o);
   var options = {
     method: 'POST',
     url: 'https://api.test.sabre.com/v1/auth/token',
@@ -28,17 +27,17 @@ tripSchema.statics.flights = function(o, cb) {
     body: 'grant_type=client_credentials'
   };
 
-  Request(options, function(err, response, body){
+  request(options, function(err, response, body){
     var token = JSON.parse(body).access_token;
       var options = {
         method: 'GET',
-        url: 'https://api.test.sabre.com/v1/shop/flights?origin=' + o.departureAirport + '&destination=' + o.arrivalAirport + '&departuredate=' + moment(o.departureDate).format("YYYY-MM-DD") + '&returndate=' + moment(o.arrivalDate).format('YYYY-MM-DD'),
+        url: 'https://api.test.sabre.com/v1/shop/flights?origin=' + o.departureAirport + '&destination=' + o.arrivalAirport + '&departuredate=' + moment(o.departureDate).format('YYYY-MM-DD') + '&returndate=' + moment(o.arrivalDate).format('YYYY-MM-DD'),
         headers: {
           'Authorization': 'Bearer ' + token
         }
       };
 
-      Request(options, function(err, response, body){
+      request(options, function(err, response, body){
         body = JSON.parse(body);
         cb(body.PricedItineraries)
       });
