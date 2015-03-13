@@ -1,7 +1,32 @@
 h3 Vacations Show Page
 
-button.btn.btn-default(ng-click='findFlights(vacation)') Find Flights
 div(tj-stripe-brain)
+  
+div(ng-if='vacation.flight.charge.id')
+  table.table.table-striped.table-hover
+    thead
+      tr
+        th Departure
+        th Arrival
+        th Duration
+        th Flight Number
+        th Airlines
+    tbody
+      tr(ng-repeat='flight in vacation.flight.itinerary.to')
+        td {{flight.departure}}
+        td {{flight.arrival}}
+        td {{flight.duration}}
+        td {{flight.flight}}
+        td {{flight.airline}}
+      tr(ng-repeat='flight in vacation.flight.itinerary.from')
+        td {{flight.departure}}
+        td {{flight.arrival}}
+        td {{flight.duration}}
+        td {{flight.flight}}
+        td {{flight.airline}}
+        
+
+      
 
 table.table.table-striped.table-hover
     thead
@@ -18,49 +43,52 @@ table.table.table-striped.table-hover
         td {{vacation.arrivalDate | date}}
         td {{vacation.departureAirport}}
         td {{vacation.arrivalAirport}}
-.row
-  .col-xs-12(ng-repeat='flight in flights')
-    h3 Arrival 
-    table.table.table-striped.table-hover
-        thead
-          tr
-            th Flight Number
-            th Fligt Length
-            th From
-            th To
-            th Departure Time 
-            th Arrival Time
-        tbody(ng-repeat='arrival in flight.AirItinerary.OriginDestinationOptions.OriginDestinationOption[0].FlightSegment')
-          tr
-            td {{arrival.FlightNumber}}
-            td {{arrival.ElapsedTime}}
-            td {{arrival.ArrivalAirport.LocationCode}}
-            td {{arrival.DepartureAirport.LocationCode}}
-            td {{arrival.DepartureDateTime | date: 'h:mma'}}
-            td {{arrival.ArrivalDateTime | date: 'h:mma'}}
-        
-    h3 Departure 
-    table.table.table-striped.table-hover
-        thead
-          tr
-            th Flight Number
-            th Fligt Length
-            th From
-            th To
-            th Departure Time 
-            th Arrival Time
-        tbody(ng-repeat='departure in flight.AirItinerary.OriginDestinationOptions.OriginDestinationOption[1].FlightSegment')
-          tr
-            td {{departure.FlightNumber}}
-            td {{departure.ElapsedTime}}
-            td {{departure.ArrivalAirport.LocationCode}}
-            td {{departure.DepartureAirport.LocationCode}}
-            td {{departure.DepartureDateTime | date: 'h:mma'}}
-            td {{departure.ArrivalDateTime | date: 'h:mma'}}
-    h4 Purhase 
-    h4 Price
-    h5 Base: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.BaseFare.Amount}}
-    h5 Taxes: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.Taxes.TotalTax.Amount}}
-    h5 Total: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.TotalFare.Amount}}
-    div(tj-stripe, itinerary='flight.AirItinerary', cost='flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.TotalFare.Amount', title='vacation.title', vacation='vacation._id')
-    
+  
+div(ng-if='!vacation.flight.charge.id')
+  button.btn.btn-default(ng-click='findFlights(vacation)') Find Flights
+  .row
+    .col-xs-12(ng-repeat='flight in flights')
+      h3 Arrival 
+      table.table.table-striped.table-hover
+          thead
+            tr
+              th Flight Number
+              th Fligt Length
+              th From
+              th To
+              th Departure Time 
+              th Arrival Time
+          tbody(ng-repeat='arrival in flight.AirItinerary.OriginDestinationOptions.OriginDestinationOption[0].FlightSegment')
+            tr
+              td {{arrival.FlightNumber}}
+              td {{arrival.ElapsedTime}}
+              td {{arrival.ArrivalAirport.LocationCode}}
+              td {{arrival.DepartureAirport.LocationCode}}
+              td {{arrival.DepartureDateTime | date: 'h:mma'}}
+              td {{arrival.ArrivalDateTime | date: 'h:mma'}}
+          
+      h3 Departure 
+      table.table.table-striped.table-hover
+          thead
+            tr
+              th Flight Number
+              th Fligt Length
+              th From
+              th To
+              th Departure Time 
+              th Arrival Time
+          tbody(ng-repeat='departure in flight.AirItinerary.OriginDestinationOptions.OriginDestinationOption[1].FlightSegment')
+            tr
+              td {{departure.FlightNumber}}
+              td {{departure.ElapsedTime}}
+              td {{departure.ArrivalAirport.LocationCode}}
+              td {{departure.DepartureAirport.LocationCode}}
+              td {{departure.DepartureDateTime | date: 'h:mma'}}
+              td {{departure.ArrivalDateTime | date: 'h:mma'}}
+      h4 Purhase 
+      h4 Price
+      h5 Base: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.BaseFare.Amount}}
+      h5 Taxes: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.Taxes.TotalTax.Amount}}
+      h5 Total: {{flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.TotalFare.Amount}}
+      div(tj-stripe, itinerary='flight.AirItinerary', cost='flight.AirItineraryPricingInfo.PTC_FareBreakdowns.PTC_FareBreakdown.PassengerFare.TotalFare.Amount', title='vacation.title', vacation='vacation._id')
+      
