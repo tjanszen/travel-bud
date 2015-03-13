@@ -6,7 +6,7 @@
         input#email.form-control(type='email', name='email', autofocus=true, ng-model='user.email', value='user.email')
       .form-group
         label(for='phone') Phone Number
-        input#phone.form-control(type='String', name='phone', ng-model='user.phone')
+        input#phone.form-control(type='tel', name='phone', ng-model='user.phone')
       .form-group
         button.btn.btn-default(type='submit', ng-click='updateProfile(user)') Save
   .col-xs-8
