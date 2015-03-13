@@ -11,6 +11,7 @@ let User;
 
 let userSchema = mongoose.Schema({
     email: {type: String, unique:true, lowercase: true},
+    phone: String,
     password: {type: String, select: false},
     displayName: String,
     photoUrl: String,
